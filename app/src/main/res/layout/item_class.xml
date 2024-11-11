@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="8dp"
+    android:background="@drawable/rounded_corner_white">
+
+
+    <ImageView
+        android:id="@+id/imvClass"
+        android:layout_width="33dp"
+        android:layout_height="35dp"
+        android:src="@drawable/ic_placeholer"
+        android:scaleType="fitXY"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_toEndOf="@id/imvClass"
+        android:layout_marginStart="8dp">
+        <TextView
+            android:id="@+id/classNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="Class Name"/>
+
+        <TextView
+            android:id="@+id/teacherNameTextView"
+            android:layout_width="wrap_content"
+            android:text="Teacher Name"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlEdit"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_toLeftOf="@id/rlDelete"
+        android:layout_marginEnd="18dp"
+        android:background="@drawable/rounded_coner_pink">
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_pen"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlDelete"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/rounded_corner_red">
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_delete"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Universal Yoga London</string>
+    <string name="nav_header_desc">Yoga class</string>
+    <string name="nav_header_title">Universal Yoga London</string>
+
+    <string-array name="days_of_week">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </string-array>
+
+    <string-array name="class_types">
+        <item>Flow</item>
+        <item>Aerial</item>
+        <item>Family</item>
+        <item>Hatha</item>
+        <item>Vinyasa</item>
+        <item>Yin</item>
+    </string-array>
+    <string name="menu_yoga_class">Yoga Class</string>
+    <string name="menu_class_saved">Saved List</string>
+    <string name="menu_course_list">Course List</string>
+    <string name="class_calendar">Class Calendar</string>
+    <string name="user_profile">User Profile</string>
+    <string name="time_e_g_10_00">Time (e.g. 10:00)</string>
+    <string name="save">Save</string>
+    <string name="description_optional">Description (Optional)</string>
+    <string name="price">Price</string>
+    <string name="duration_minutes">Duration (minutes)</string>
+    <string name="capacity">Capacity</string>
+    <string name="duration">Duration</string>
+    <string name="select_date_time">Select Date and Time</string>
+
+    <string-array name="currency_descriptions">
+        <item>Pounds (£)</item>
+        <item>US Dollars ($)</item>
+        <item>Thai Baht (฿)</item>
+        <item>Myanmar Kyat (K)</item>
+        <item>Japanese Yen (¥)</item>
+        <item>Singapore Dollar (S$)</item>
+    </string-array>
+    <string name="previous_month">Previous month</string>
+    <string name="next_month">Next month</string>
+    <string name="select_date">Select Date</string>
+    <string name="select_time">Select Time</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
