@@ -26,9 +26,9 @@ import com.example.universalyogalondon.databinding.DefaultDialogViewBinding
 import com.example.universalyogalondon.helper.ViewState
 import com.example.universalyogalondon.model.viewmodel.DatabaseViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.firebase.Firebase
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.firestore.firestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -106,8 +106,19 @@ class ClassCalendarFragment : Fragment() {
                     confirmDelete(data.courseId)
                 }
                 "publish" -> {
-//                println("CoursesVO $data")
-                    uploadToFirebaseDatabase(data)
+                  println("CoursesVO $data")
+                    db.collection("testing")
+                        .add(data)
+                        .addOnSuccessListener { documentReference ->
+                            Toast.makeText(requireContext(), "Success!", Toast.LENGTH_SHORT).show()
+                            Log.d("Potato", "DocumentSnapshot added with ID: ${documentReference.id}")
+                        }
+                        .addOnFailureListener { e ->
+                            Toast.makeText(requireContext(), "Fail!", Toast.LENGTH_SHORT).show()
+                            Log.w("Banana", "Error adding document", e)
+                        }
+//                    uploadToFirebaseDatabase(data)
+                    Toast.makeText(requireContext(), "Published!", Toast.LENGTH_SHORT).show()
                 }
             }
         }

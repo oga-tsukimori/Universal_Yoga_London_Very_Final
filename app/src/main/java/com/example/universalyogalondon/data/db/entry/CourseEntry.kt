@@ -19,5 +19,6 @@ data class CourseEntry(
     val description : String = "",
     val timestamp: Long = System.currentTimeMillis(),
     @TypeConverters(ItemListConverter::class)
-    val itemList : List<ClassEntry> = emptyList()
+    val itemList : List<ClassEntry> = emptyList(),
+    val pricing : Double = 0.0
 )

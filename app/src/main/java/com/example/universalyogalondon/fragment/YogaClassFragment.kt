@@ -29,6 +29,7 @@ import android.widget.TextView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.cardview.widget.CardView
+import androidx.core.util.Pair
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -158,7 +159,7 @@ class YogaClassFragment : Fragment() {
 
             val dateRangePicker = MaterialDatePicker.Builder.dateRangePicker()
                 .setTitleText("Select Course Duration")
-                .setSelection(androidx.core.util.Pair(MaterialDatePicker.todayInUtcMilliseconds(), MaterialDatePicker.todayInUtcMilliseconds()))
+                .setSelection(Pair(MaterialDatePicker.todayInUtcMilliseconds(), MaterialDatePicker.todayInUtcMilliseconds()))
                 .setCalendarConstraints(constraintsBuilder.build())
                 .setTheme(R.style.ThemeMaterialCalendar)
                 .build()
@@ -235,12 +236,19 @@ class YogaClassFragment : Fragment() {
                 name = className,
                 instructor = "", // Pass an empty string for now
                 time = time,
-                startDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date(startDate)),
+                startDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(
+                    Date(
+                        startDate
+                    )
+                ),
                 endDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date(endDate)),
                 dayOfWeek = dayOfWeek,
                 duration = duration,
                 level = selectedTypes.joinToString(", "),
-                description = binding.edtDesc.text.toString()
+                description = binding.edtDesc.text.toString(),
+                price = TODO(),
+                chipGroup = TODO(),
+                maximumCapacity = TODO()
             )
 
             saveCourseToDatabase(yogaClass)
@@ -388,20 +396,31 @@ class YogaClassFragment : Fragment() {
     }
 
     private fun saveCourseToDB() {
+
         binding.saveButton.setOnClickListener {
-            val course = CourseEntry(
-                courseName = binding.edtCourseName.text.trim().toString(),
-                from_to_date = binding.dateRangePickerButton.text.trim().toString(),
-                description = binding.edtDesc.text.trim().toString(),
-                itemList = classes,
-                duration = binding.edtDuration.text.toString(),
-                classType = chipType
+            if (binding.edtCourseName.text.trim().toString().isNullOrEmpty()){
+                binding.edtCourseName.error = "Please fill course name!"
 
+            } else if (binding.edtDuration.text.trim().toString().isNullOrEmpty()){
+                binding.edtDuration.error = "Please add course duration!"
+            }
+            else {
+                val course = CourseEntry(
+                    courseName = binding.edtCourseName.text.trim().toString(),
+                    from_to_date = binding.dateRangePickerButton.text.trim().toString(),
+                    description = binding.edtDesc.text.trim().toString(),
+                    itemList = classes,
+                    duration = binding.edtDuration.text.toString(),
+                    classType = chipType,
+                    pricing = binding.editPrice.text.toString().toDouble(),
+                    capacity = binding.editMaximumCapacity.text.toString().toInt()
+                )
+                databaseViewModel.insertCourse(course)
+                clearInputs()
+                Toast.makeText(requireContext(), "Successfully saved...", Toast.LENGTH_SHORT).show()
+            }
 
-            )
-            databaseViewModel.insertCourse(course)
-            clearInputs()
-            Toast.makeText(requireContext(), "Successfully saved...", Toast.LENGTH_SHORT).show()
         }
+
     }
 }
