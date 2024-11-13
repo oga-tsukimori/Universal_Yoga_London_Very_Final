@@ -4,6 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.example.universalyogalondon.data.ItemListConverter
 import com.example.universalyogalondon.data.db.entry.ClassEntry
 import com.example.universalyogalondon.data.db.entry.CourseEntry
 import com.example.universalyogalondon.databinding.ItemViewSavedClassBinding
@@ -49,7 +52,7 @@ class SaveListAdapter(
             binding.rlDelete.setOnClickListener { delegate.invoke(item, "delete", adapterPosition) }
             binding.btnPublish.setOnClickListener {
                 publishDataToFirebase(item) // Publish data to Firebase on click
-                delegate.invoke(item, "publish", adapterPosition)
+//                delegate.invoke(item, "publish", adapterPosition)
             }
 
             item.itemList.let { setSavedList(it.toMutableList()) }
@@ -65,18 +68,47 @@ class SaveListAdapter(
         }
 
         private fun publishDataToFirebase(item: CourseEntry) {
-            val documentRef = firestore.collection("courses").document()
+            val documentRef = firestore.collection("courses testing").document()
 
             // Convert each ClassEntry to a map and store it in a List<Map<String, Any?>>
             val itemListAsMaps: List<Map<String, Any?>> = item.itemList.map { it.toMap() }
 
+//            @PrimaryKey val courseId : Int = 0,
+//            val courseName : String? = "",
+//            val duration: String? = "",
+//            val capacity : Int = 0,
+//            val classType : String? = "",
+//            val from_to_date : String = "",
+//            val description : String = "",
+//            val timestamp: Long = System.currentTimeMillis(),
+//            @TypeConverters(ItemListConverter::class)
+//            val itemList : List<ClassEntry> = emptyList(),
+//            val pricing : Double = 0.0
+//            )
             // Create the Firestore data structure
+//            val courseData = hashMapOf(
+//                "courseName" to item.courseName,
+//                "duration" to item.duration,
+//                "capacity" to item.capacity,
+//                "classType" to item.classType,
+//                "from_to_date" to item.from_to_date,
+//                "description" to item.description,
+//                "timestamp" to item.timestamp,
+//                "itemList" to itemListAsMaps,
+//                "pricing" to item.pricing,
+//
+//            )
             val courseData = hashMapOf(
                 "courseName" to item.courseName,
+                "duration" to item.duration,
+                "capacity" to item.capacity,
+                "classType" to item.classType,
                 "from_to_date" to item.from_to_date,
+                "description" to item.description,
                 "timestamp" to item.timestamp,
-                "itemList" to itemListAsMaps
-            )
+                "itemList" to itemListAsMaps,
+                "pricing" to item.pricing,
+                )
 
             // Save to Firestore
             documentRef.set(courseData)

@@ -396,20 +396,31 @@ class YogaClassFragment : Fragment() {
     }
 
     private fun saveCourseToDB() {
+
         binding.saveButton.setOnClickListener {
-            val course = CourseEntry(
-                courseName = binding.edtCourseName.text.trim().toString(),
-                from_to_date = binding.dateRangePickerButton.text.trim().toString(),
-                description = binding.edtDesc.text.trim().toString(),
-                itemList = classes,
-                duration = binding.edtDuration.text.toString(),
-                classType = chipType
+            if (binding.edtCourseName.text.trim().toString().isNullOrEmpty()){
+                binding.edtCourseName.error = "Please fill course name!"
 
+            } else if (binding.edtDuration.text.trim().toString().isNullOrEmpty()){
+                binding.edtDuration.error = "Please add course duration!"
+            }
+            else {
+                val course = CourseEntry(
+                    courseName = binding.edtCourseName.text.trim().toString(),
+                    from_to_date = binding.dateRangePickerButton.text.trim().toString(),
+                    description = binding.edtDesc.text.trim().toString(),
+                    itemList = classes,
+                    duration = binding.edtDuration.text.toString(),
+                    classType = chipType,
+                    pricing = binding.editPrice.text.toString().toDouble(),
+                    capacity = binding.editMaximumCapacity.text.toString().toInt()
+                )
+                databaseViewModel.insertCourse(course)
+                clearInputs()
+                Toast.makeText(requireContext(), "Successfully saved...", Toast.LENGTH_SHORT).show()
+            }
 
-            )
-            databaseViewModel.insertCourse(course)
-            clearInputs()
-            Toast.makeText(requireContext(), "Successfully saved...", Toast.LENGTH_SHORT).show()
         }
+
     }
 }

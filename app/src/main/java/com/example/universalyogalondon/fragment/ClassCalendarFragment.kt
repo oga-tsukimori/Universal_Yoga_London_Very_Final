@@ -106,8 +106,19 @@ class ClassCalendarFragment : Fragment() {
                     confirmDelete(data.courseId)
                 }
                 "publish" -> {
-//                println("CoursesVO $data")
-                    uploadToFirebaseDatabase(data)
+                  println("CoursesVO $data")
+                    db.collection("testing")
+                        .add(data)
+                        .addOnSuccessListener { documentReference ->
+                            Toast.makeText(requireContext(), "Success!", Toast.LENGTH_SHORT).show()
+                            Log.d("Potato", "DocumentSnapshot added with ID: ${documentReference.id}")
+                        }
+                        .addOnFailureListener { e ->
+                            Toast.makeText(requireContext(), "Fail!", Toast.LENGTH_SHORT).show()
+                            Log.w("Banana", "Error adding document", e)
+                        }
+//                    uploadToFirebaseDatabase(data)
+                    Toast.makeText(requireContext(), "Published!", Toast.LENGTH_SHORT).show()
                 }
             }
         }
