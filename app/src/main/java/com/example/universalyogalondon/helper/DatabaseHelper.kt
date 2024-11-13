@@ -75,7 +75,10 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                     dayOfWeek = "",
                     duration = duration,
                     level = "",
-                    description = description
+                    description = "",
+                    price = TODO(),
+                    chipGroup = TODO(),
+                    maximumCapacity = TODO(),
                 )
                 courses.add(course)
             } while (cursor.moveToNext())

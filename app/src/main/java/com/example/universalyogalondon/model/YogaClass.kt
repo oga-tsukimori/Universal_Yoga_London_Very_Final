@@ -1,5 +1,7 @@
 package com.example.universalyogalondon.model
 
+import com.google.android.material.chip.ChipGroup
+
 data class YogaClass(
     val id: String,
     val name: String,
@@ -10,5 +12,9 @@ data class YogaClass(
     val dayOfWeek: String,
     val duration: Int,
     val level: String,
-    val description: String
+    val description: String,
+    val price: Int,
+    val chipGroup: ChipGroup,
+    val maximumCapacity: Int,
+
 )

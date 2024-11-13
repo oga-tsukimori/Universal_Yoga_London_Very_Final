@@ -29,6 +29,7 @@ import android.widget.TextView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.cardview.widget.CardView
+import androidx.core.util.Pair
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -158,7 +159,7 @@ class YogaClassFragment : Fragment() {
 
             val dateRangePicker = MaterialDatePicker.Builder.dateRangePicker()
                 .setTitleText("Select Course Duration")
-                .setSelection(androidx.core.util.Pair(MaterialDatePicker.todayInUtcMilliseconds(), MaterialDatePicker.todayInUtcMilliseconds()))
+                .setSelection(Pair(MaterialDatePicker.todayInUtcMilliseconds(), MaterialDatePicker.todayInUtcMilliseconds()))
                 .setCalendarConstraints(constraintsBuilder.build())
                 .setTheme(R.style.ThemeMaterialCalendar)
                 .build()
@@ -235,12 +236,19 @@ class YogaClassFragment : Fragment() {
                 name = className,
                 instructor = "", // Pass an empty string for now
                 time = time,
-                startDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date(startDate)),
+                startDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(
+                    Date(
+                        startDate
+                    )
+                ),
                 endDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date(endDate)),
                 dayOfWeek = dayOfWeek,
                 duration = duration,
                 level = selectedTypes.joinToString(", "),
-                description = binding.edtDesc.text.toString()
+                description = binding.edtDesc.text.toString(),
+                price = TODO(),
+                chipGroup = TODO(),
+                maximumCapacity = TODO()
             )
 
             saveCourseToDatabase(yogaClass)
