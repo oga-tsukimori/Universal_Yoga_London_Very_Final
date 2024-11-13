@@ -11,12 +11,12 @@ import com.example.universalyogalondon.data.db.entry.ClassEntry
 import com.example.universalyogalondon.data.db.entry.CourseEntry
 import com.example.universalyogalondon.databinding.ItemViewSavedClassBinding
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 
 
 import com.example.universalyogalondon.model.DataVO
 import com.example.universalyogalondon.model.YogaClassVO
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 
 class SaveListAdapter(
@@ -24,7 +24,7 @@ class SaveListAdapter(
     val delegate: (CourseEntry, String, Int) -> Unit
 ) : RecyclerView.Adapter<SaveListAdapter.SavedViewHolder>() {
 
-    private val firestore: FirebaseFirestore = Firebase.firestore // Initialize Firestore
+    private val db = Firebase.firestore // Initialize Firestore
 
     fun updateData(filteredList : MutableList<CourseEntry>){
         itemList.clear()
@@ -51,8 +51,8 @@ class SaveListAdapter(
             binding.rlEdit.setOnClickListener { delegate.invoke(item, "edit", adapterPosition) }
             binding.rlDelete.setOnClickListener { delegate.invoke(item, "delete", adapterPosition) }
             binding.btnPublish.setOnClickListener {
-                publishDataToFirebase(item) // Publish data to Firebase on click
-//                delegate.invoke(item, "publish", adapterPosition)
+//                publishDataToFirebase(item) // Publish data to Firebase on click
+                delegate.invoke(item, "publish", adapterPosition)
             }
 
             item.itemList.let { setSavedList(it.toMutableList()) }
@@ -68,7 +68,7 @@ class SaveListAdapter(
         }
 
         private fun publishDataToFirebase(item: CourseEntry) {
-            val documentRef = firestore.collection("courses testing").document()
+            val documentRef = db.collection("courses testing").document()
 
             // Convert each ClassEntry to a map and store it in a List<Map<String, Any?>>
             val itemListAsMaps: List<Map<String, Any?>> = item.itemList.map { it.toMap() }

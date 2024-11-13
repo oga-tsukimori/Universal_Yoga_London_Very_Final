@@ -26,9 +26,9 @@ import com.example.universalyogalondon.databinding.DefaultDialogViewBinding
 import com.example.universalyogalondon.helper.ViewState
 import com.example.universalyogalondon.model.viewmodel.DatabaseViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.firebase.Firebase
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.firestore.firestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 
 
