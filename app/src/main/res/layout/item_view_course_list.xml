@@ -11,21 +11,29 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="92dp"
+        android:layout_height="wrap_content"
         android:layout_margin="18dp">
 
         <TextView
-            android:id="@+id/tvName"
+            android:id="@+id/tvCourseName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Weight Loss November"/>
-        <TextView
-            android:id="@+id/tvAmt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="14 people has booked this course."
-            android:layout_alignParentBottom="true"/>
+            android:text="Weight Loss November" />
+
+<!--        <TextView-->
+<!--            android:id="@+id/tvAmt"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:text="14 people has booked this course." />-->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvUsers"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </RelativeLayout>
+
+
 
 </com.google.android.material.card.MaterialCardView>

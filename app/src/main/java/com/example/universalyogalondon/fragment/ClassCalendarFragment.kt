@@ -107,7 +107,7 @@ class ClassCalendarFragment : Fragment() {
                 }
                 "publish" -> {
                   println("CoursesVO $data")
-                    db.collection("testing")
+                    db.collection("courses")
                         .add(data)
                         .addOnSuccessListener { documentReference ->
                             Toast.makeText(requireContext(), "Success!", Toast.LENGTH_SHORT).show()

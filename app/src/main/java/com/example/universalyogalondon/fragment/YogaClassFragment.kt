@@ -105,7 +105,7 @@ class YogaClassFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupDateRangePicker()
+//        setupDateRangePicker()
         setupClassTypeChips()
         //setupSaveButton()
         setupInputValidation()
@@ -140,47 +140,47 @@ class YogaClassFragment : Fragment() {
 
         binding.edtCourseName.addTextChangedListener(textWatcher)
         binding.edtDuration.addTextChangedListener(textWatcher)
-        binding.dateRangePickerButton.addTextChangedListener(textWatcher)
+//        binding.dateRangePickerButton.addTextChangedListener(textWatcher)
     }
 
     private fun validateInputs() {
         val isValid = binding.edtCourseName.text.isNotBlank() &&
                 binding.edtDuration.text.isNotBlank() &&
-                binding.dateRangePickerButton.text != "Select Course Duration" &&
+//                binding.dateRangePickerButton.text != "Select Course Duration" &&
                 binding.classTypeChipGroup.checkedChipIds.isNotEmpty()
 
         binding.saveButton.isEnabled = isValid
     }
 
-    private fun setupDateRangePicker() {
-        binding.dateRangePickerButton.setOnClickListener {
-            val constraintsBuilder = CalendarConstraints.Builder()
-                .setValidator(DateValidatorPointForward.now())
+//    private fun setupDateRangePicker() {
+//        binding.dateRangePickerButton.setOnClickListener {
+//            val constraintsBuilder = CalendarConstraints.Builder()
+//                .setValidator(DateValidatorPointForward.now())
+//
+//            val dateRangePicker = MaterialDatePicker.Builder.dateRangePicker()
+//                .setTitleText("Select Course Duration")
+//                .setSelection(Pair(MaterialDatePicker.todayInUtcMilliseconds(), MaterialDatePicker.todayInUtcMilliseconds()))
+//                .setCalendarConstraints(constraintsBuilder.build())
+//                .setTheme(R.style.ThemeMaterialCalendar)
+//                .build()
 
-            val dateRangePicker = MaterialDatePicker.Builder.dateRangePicker()
-                .setTitleText("Select Course Duration")
-                .setSelection(Pair(MaterialDatePicker.todayInUtcMilliseconds(), MaterialDatePicker.todayInUtcMilliseconds()))
-                .setCalendarConstraints(constraintsBuilder.build())
-                .setTheme(R.style.ThemeMaterialCalendar)
-                .build()
+//            dateRangePicker.addOnPositiveButtonClickListener { selection ->
+//                startDate = selection.first
+//                endDate = selection.second
+//                updateDateRangeButtonText()
+//                validateInputs()
+//            }
 
-            dateRangePicker.addOnPositiveButtonClickListener { selection ->
-                startDate = selection.first
-                endDate = selection.second
-                updateDateRangeButtonText()
-                validateInputs()
-            }
-
-            dateRangePicker.show(childFragmentManager, "DATE_RANGE_PICKER")
-        }
-    }
-
-    private fun updateDateRangeButtonText() {
-        val dateFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
-        val startDateStr = dateFormat.format(Date(startDate))
-        val endDateStr = dateFormat.format(Date(endDate))
-        binding.dateRangePickerButton.text = "$startDateStr - $endDateStr"
-    }
+//            dateRangePicker.show(childFragmentManager, "DATE_RANGE_PICKER")
+//        }
+//    }
+//
+//    private fun updateDateRangeButtonText() {
+//        val dateFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
+//        val startDateStr = dateFormat.format(Date(startDate))
+//        val endDateStr = dateFormat.format(Date(endDate))
+//        binding.dateRangePickerButton.text = "$startDateStr - $endDateStr"
+//    }
 
     private fun setupClassTypeChips() {
         val classTypes = resources.getStringArray(R.array.class_types)
@@ -269,7 +269,7 @@ class YogaClassFragment : Fragment() {
         calendar.time = Date() // Reset to current date and time
         startDate = 0
         endDate = 0
-        binding.dateRangePickerButton.text = "Select Course Duration"
+//        binding.dateRangePickerButton.text = "Select Course Duration"
     }
 
     private fun setupAddClassButton() {
@@ -407,7 +407,7 @@ class YogaClassFragment : Fragment() {
             else {
                 val course = CourseEntry(
                     courseName = binding.edtCourseName.text.trim().toString(),
-                    from_to_date = binding.dateRangePickerButton.text.trim().toString(),
+//                    from_to_date = binding.dateRangePickerButton.text.trim().toString(),
                     description = binding.edtDesc.text.trim().toString(),
                     itemList = classes,
                     duration = binding.edtDuration.text.toString(),

@@ -30,8 +30,7 @@ class CourseListAdapter (var itemList : MutableList<DataVO>) : RecyclerView.Adap
 
     class CourseListViewHolder(val binding : ItemViewCourseListBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bindData(item : DataVO) {
-            binding.tvName.text = item.titleName
-            binding.tvAmt.text = "14 people has booked this course."
+            binding.tvCourseName.text = item.titleName
 
             //setSavedList(item.itemList)
         }

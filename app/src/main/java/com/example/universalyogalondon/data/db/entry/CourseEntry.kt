@@ -15,7 +15,6 @@ data class CourseEntry(
     val duration: String? = "",
     val capacity : Int = 0,
     val classType : String? = "",
-    val from_to_date : String = "",
     val description : String = "",
     val timestamp: Long = System.currentTimeMillis(),
     @TypeConverters(ItemListConverter::class)

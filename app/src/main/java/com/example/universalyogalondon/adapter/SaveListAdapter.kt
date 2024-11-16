@@ -45,7 +45,6 @@ class SaveListAdapter(
     inner class SavedViewHolder(private val binding: ItemViewSavedClassBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bindData(item: CourseEntry, delegate: (CourseEntry, String, Int) -> Unit) {
             binding.tvTitle.text = item.courseName
-            binding.tvDate.text = item.from_to_date
             binding.tvTime.text = item.timestamp.toString()
 
             binding.rlEdit.setOnClickListener { delegate.invoke(item, "edit", adapterPosition) }
@@ -68,7 +67,7 @@ class SaveListAdapter(
         }
 
         private fun publishDataToFirebase(item: CourseEntry) {
-            val documentRef = db.collection("courses testing").document()
+            val documentRef = db.collection("courses").document()
 
             // Convert each ClassEntry to a map and store it in a List<Map<String, Any?>>
             val itemListAsMaps: List<Map<String, Any?>> = item.itemList.map { it.toMap() }
@@ -103,7 +102,6 @@ class SaveListAdapter(
                 "duration" to item.duration,
                 "capacity" to item.capacity,
                 "classType" to item.classType,
-                "from_to_date" to item.from_to_date,
                 "description" to item.description,
                 "timestamp" to item.timestamp,
                 "itemList" to itemListAsMaps,

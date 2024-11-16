@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.universalyogalondon.adapter.CourseAdapter
 import com.example.universalyogalondon.adapter.CourseListAdapter
+import com.example.universalyogalondon.adapter.UsersAdapter
 import com.example.universalyogalondon.data.db.entry.CourseEntry
 import com.example.universalyogalondon.databinding.FragmentUserProfileBinding
 import com.example.universalyogalondon.helper.DataHelper
@@ -23,8 +24,7 @@ class UserProfileFragment : Fragment() {
 
     private var _binding: FragmentUserProfileBinding? = null
     private val binding get() = _binding!!
-    private lateinit var courseAdapter: CourseAdapter
-    private var courseListAdapter : CourseListAdapter? = null
+    private var usersAdapter : UsersAdapter? = null
     var courseList : MutableList<CourseEntry>? = null
 
     override fun onCreateView(
@@ -40,48 +40,50 @@ class UserProfileFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getCourses()
+        getCoursesWithUsers()
 
-       /* // Initialize RecyclerView
-        val recyclerView: RecyclerView = binding.classesRecyclerView
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        courseAdapter = CourseAdapter(emptyList())
-        recyclerView.adapter = courseAdapter
-
-        // Fetch courses from database
-        val dbHelper = DatabaseHelper(requireContext())
-        val courseList = dbHelper.getAllCourses() // Assume this returns a List<Course>
-        courseAdapter.updateCourses(courseList)*/
-
-        setSavedList()
+        setUpUserList()
     }
-    private fun getCourses(){
-        val db = Firebase.firestore
-        db.collection("courses")
-            .get()
-            .addOnSuccessListener { result ->
-                println("### $result")
-                for (document in result) {
-                    Log.d("#####", "${document.id} => ${document.data}")
-//                    document.data.let { courseListAdapter.updateData(it) }
-//                    courseList?.addAll(document.data)
-                }
-
-
-            }
-            .addOnFailureListener { exception ->
-                Log.w("TAG", "Error getting documents.", exception)
-            }
-    }
-
-    private fun setSavedList() {
-        courseListAdapter = CourseListAdapter(mutableListOf())
+    private fun setUpUserList(){
+        usersAdapter = UsersAdapter(mutableListOf())
 //        courseListAdapter?.updateData(dataList)
-        binding.rvCourseList.apply {
+        binding.rvUsers.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = courseListAdapter
+            adapter = usersAdapter
         }
     }
+
+    fun getCoursesWithUsers() {
+        // Initialize Firestore
+        val db = Firebase.firestore
+
+        // Reference the "courses" collection
+        val coursesRef = db.collection("courses")
+
+        // Query documents containing the "users" field
+        coursesRef.get()
+            .addOnSuccessListener { documents ->
+                println("Course Data: ${documents}")
+                for (document in documents) {
+                    // Check if "users" field exists
+                    if (document.contains("users")) {
+                        val courseId = document.id
+                        val courseData = document.data
+                        val usersList = document.get("users") // Retrieves the "users" list
+
+                        println("Course ID: $courseId")
+                        println("Course Data: ${document.data}")
+                        println("Users: $usersList")
+
+                        usersAdapter?.setUsers(usersList as MutableList<Map<String, String>>)
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                println("Error fetching courses: ${exception.message}")
+            }
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
