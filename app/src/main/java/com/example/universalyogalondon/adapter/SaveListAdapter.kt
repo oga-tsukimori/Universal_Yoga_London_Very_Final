@@ -104,8 +104,10 @@ class SaveListAdapter(
                 "classType" to item.classType,
                 "description" to item.description,
                 "timestamp" to item.timestamp,
-                "itemList" to itemListAsMaps,
+                "classes" to itemListAsMaps,
                 "pricing" to item.pricing,
+                "dayOfWeek" to item.dayOfWeek,
+                "timeOfDay" to item.timeOfDay,
                 )
 
             // Save to Firestore

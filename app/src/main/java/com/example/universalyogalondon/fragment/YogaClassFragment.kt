@@ -8,8 +8,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.universalyogalondon.databinding.FragmentYogaCourseBinding
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.datepicker.CalendarConstraints
-import com.google.android.material.datepicker.DateValidatorPointForward
 import java.text.SimpleDateFormat
 import java.util.*
 import com.google.android.material.chip.Chip
@@ -18,22 +16,17 @@ import android.text.TextWatcher
 import android.app.AlertDialog
 import android.app.TimePickerDialog
 import android.content.Intent
-import android.media.Image
 import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.EditText
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.cardview.widget.CardView
-import androidx.core.util.Pair
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.TypeConverters
 import com.example.universalyogalondon.R
 import com.example.universalyogalondon.SharedViewModel
 import com.example.universalyogalondon.activity.AddCourseActivity
@@ -48,7 +41,6 @@ import com.example.universalyogalondon.model.YogaClass
 import com.example.universalyogalondon.model.viewmodel.DatabaseViewModel
 import com.github.dhaval2404.imagepicker.ImagePicker
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.selects.select
 
 @AndroidEntryPoint
 class YogaClassFragment : Fragment() {
@@ -248,7 +240,10 @@ class YogaClassFragment : Fragment() {
                 description = binding.edtDesc.text.toString(),
                 price = TODO(),
                 chipGroup = TODO(),
-                maximumCapacity = TODO()
+                maximumCapacity = TODO(),
+                timeOfDay = binding.timeOfDay.text.toString().toInt(),
+
+
             )
 
             saveCourseToDatabase(yogaClass)
@@ -413,7 +408,10 @@ class YogaClassFragment : Fragment() {
                     duration = binding.edtDuration.text.toString(),
                     classType = chipType,
                     pricing = binding.editPrice.text.toString().toDouble(),
-                    capacity = binding.editMaximumCapacity.text.toString().toInt()
+                    capacity = binding.editMaximumCapacity.text.toString().toInt(),
+                    dayOfWeek = binding.dayOfWeek.text.trim().toString(),
+                   timeOfDay = binding.timeOfDay.text.trim().toString()
+
                 )
                 databaseViewModel.insertCourse(course)
                 clearInputs()
