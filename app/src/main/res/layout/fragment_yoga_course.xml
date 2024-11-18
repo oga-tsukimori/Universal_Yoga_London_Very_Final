@@ -88,6 +88,24 @@
             android:inputType="textMultiLine"
             android:lines="3" />
 
+        <EditText
+            android:id="@+id/dayOfWeek"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="16dp"
+            android:hint="Occuring in every _ day of week (Wednesday)"
+            android:inputType="textMultiLine"
+            android:lines="3" />
+        <EditText
+            android:id="@+id/timeOfDay"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="16dp"
+            android:hint="Occuring in every _ time of Day (23:00)"
+            android:inputType="textMultiLine"
+            android:lines="3" />
+
+
         <LinearLayout
             android:id="@+id/layoutAddClass"
             android:layout_width="match_parent"

@@ -4,20 +4,23 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.example.universalyogalondon.data.ItemListConverter
-import kotlin.time.Duration
+import java.time.LocalDateTime
 
 
 @Entity(tableName = "course")
 data class CourseEntry(
 //    @PrimaryKey(autoGenerate = true)
-   @PrimaryKey val courseId : Int = 0,
-    val courseName : String? = "",
-    val duration: String? = "",
-    val capacity : Int = 0,
-    val classType : String? = "",
-    val description : String = "",
-    val timestamp: Long = System.currentTimeMillis(),
-    @TypeConverters(ItemListConverter::class)
-    val itemList : List<ClassEntry> = emptyList(),
-    val pricing : Double = 0.0
+     @PrimaryKey val courseId: Int = 0,
+     val courseName: String? = "",
+     val duration: String? = "",
+     val capacity: Int = 0,
+     val classType: String? = "",
+     val description: String = "",
+     val time: String = "",
+     val timestamp: Long = System.currentTimeMillis(),
+     @TypeConverters(ItemListConverter::class)
+     val itemList: List<ClassEntry> = emptyList(),
+     val pricing: Double = 0.0,
+     val dayOfWeek: String,
+     val timeOfDay: String
 )

@@ -20,6 +20,7 @@ class CourseAdapter(private var courses: List<YogaClass>) : RecyclerView.Adapter
         val classTypeChipGroup: TextView = view.findViewById(R.id.classTypeChipGroup)
         val dateRangePicker: TextView = view.findViewById(R.id.datePickerButton)
         val editMaximumCapacity: TextView = view.findViewById(R.id.editMaximumCapacity)
+        val time: TextView = view.findViewById(R.id.tvTime)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

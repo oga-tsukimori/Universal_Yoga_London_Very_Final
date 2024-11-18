@@ -67,6 +67,7 @@ class ClassCalendarFragment : Fragment() {
         populateCalendar()*/
 
 
+
         listenToDB()
         setSavedList()
 
@@ -95,8 +96,7 @@ class ClassCalendarFragment : Fragment() {
         }
     }
 
-
-    private fun setSavedList() {
+        private fun setSavedList() {
         savedListAdapter = SaveListAdapter(mutableListOf()) {data , root, pos ->
             when(root) {
                 "edit" -> {
