@@ -27,13 +27,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <RelativeLayout
             android:id="@+id/layoutDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvTitle"
             android:layout_marginTop="8dp"
+            app:flow_horizontalGap="20dp"
             >
 
             <TextView
@@ -47,7 +48,7 @@
                 tools:text="50 USD" />
 
             <TextView
-                android:id="@+id/tvTime"
+                android:id="@+id/tvDuration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -56,15 +57,17 @@
                 tools:layout_editor_absoluteY="0dp" />
 
             <TextView
-                android:id="@+id/tvDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nov 18,2024"
-                app:layout_constraintEnd_toStartOf="@+id/tvTime"
-                app:layout_constraintStart_toEndOf="@+id/tvPrice"
-               />
+                android:layout_width="144dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="77dp"
+                android:layout_marginEnd="50dp"
+                android:layout_toStartOf="@+id/tvDuration"
+                android:layout_toEndOf="@+id/tvPrice"
+                android:text="Duration per class"
+                app:layout_constraintEnd_toStartOf="@+id/tvDuration"
+                app:layout_constraintStart_toEndOf="@+id/tvPrice" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvClassList"

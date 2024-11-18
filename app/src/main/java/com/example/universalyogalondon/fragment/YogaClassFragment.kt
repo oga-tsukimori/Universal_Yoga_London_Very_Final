@@ -410,7 +410,7 @@ class YogaClassFragment : Fragment() {
                     pricing = binding.editPrice.text.trim().toString().toDouble(),
                     capacity = binding.editMaximumCapacity.text.toString().toInt(),
                     dayOfWeek = binding.dayOfWeek.text.trim().toString(),
-                   timeOfDay = binding.timeOfDay.text.trim().toString()
+                    timeOfDay = binding.timeOfDay.text.trim().toString()
 
                 )
                 databaseViewModel.insertCourse(course)
