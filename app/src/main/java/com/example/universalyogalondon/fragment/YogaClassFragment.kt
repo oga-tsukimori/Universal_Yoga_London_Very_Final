@@ -407,7 +407,7 @@ class YogaClassFragment : Fragment() {
                     itemList = classes,
                     duration = binding.edtDuration.text.toString(),
                     classType = chipType,
-                    pricing = binding.editPrice.text.toString().toDouble(),
+                    pricing = binding.editPrice.text.trim().toString().toDouble(),
                     capacity = binding.editMaximumCapacity.text.toString().toInt(),
                     dayOfWeek = binding.dayOfWeek.text.trim().toString(),
                    timeOfDay = binding.timeOfDay.text.trim().toString()

@@ -27,28 +27,44 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvTitle"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp"
+            >
 
             <TextView
-                android:id="@+id/tvDate"
+                android:id="@+id/tvPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nov 2, 2024 - Nov 6, 2024"/>
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+                android:textColor="@color/color_primary"
+                android:textStyle="bold"
+                tools:text="50 USD" />
 
             <TextView
                 android:id="@+id/tvTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:text="40 min"
-                android:layout_alignParentEnd="true"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:layout_editor_absoluteY="0dp" />
 
-        </RelativeLayout>
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nov 18,2024"
+                app:layout_constraintEnd_toStartOf="@+id/tvTime"
+                app:layout_constraintStart_toEndOf="@+id/tvPrice"
+               />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvClassList"
@@ -105,8 +121,6 @@
             android:paddingStart="24dp"
             android:paddingEnd="24dp"
             android:background="@drawable/primary_btn"/>
-
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
