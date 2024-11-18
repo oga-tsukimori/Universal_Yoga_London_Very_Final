@@ -18,13 +18,13 @@
     <fragment
         android:id="@+id/nav_class_calendar"
         android:name="com.example.universalyogalondon.fragment.ClassCalendarFragment"
-        android:label="Class Calendar"
+        android:label="Saved Courses"
         tools:layout="@layout/fragment_class_calendar" />
 
     <fragment
         android:id="@+id/nav_user_profile"
         android:name="com.example.universalyogalondon.fragment.UserProfileFragment"
-        android:label="User Profile"
+        android:label="Customer Information"
         tools:layout="@layout/fragment_user_profile" />
     <fragment
         android:id="@+id/addCourseFragment"
