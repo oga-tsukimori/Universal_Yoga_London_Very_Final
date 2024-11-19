@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.universalyogalondon.model.YogaClass
-import com.example.universalyogalondon.data.db.entry.ClassEntry
+import java.util.UUID
 
 
 class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -80,6 +80,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                     chipGroup = TODO(),
                     maximumCapacity = TODO(),
                     timeOfDay = 23,
+                    courseID = UUID.randomUUID().toString().toInt()!!,
+                    classID = UUID.randomUUID().toString().toInt(),
                 )
                 courses.add(course)
             } while (cursor.moveToNext())

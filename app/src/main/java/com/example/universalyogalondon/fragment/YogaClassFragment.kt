@@ -40,6 +40,8 @@ import com.example.universalyogalondon.model.ClassItem
 import com.example.universalyogalondon.model.YogaClass
 import com.example.universalyogalondon.model.viewmodel.DatabaseViewModel
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -97,9 +99,22 @@ class YogaClassFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        setupDateRangePicker()
+            // Add listener to save button
+            binding.saveButton.setOnClickListener {
+                val courseName = binding.edtCourseName.text.toString()
+                val courseDuration = binding.edtDuration.text.toString().toIntOrNull()
+                val courseCapacity = binding.editMaximumCapacity.text.toString().toIntOrNull()
+                val courseDescription = binding.edtDesc.text.toString()
+
+                if (!courseName.isBlank() && courseDuration != null && courseCapacity != null) {
+                    createNewCourse(courseName, courseDuration, courseCapacity, courseDescription)
+                } else {
+                    Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+
         setupClassTypeChips()
-        //setupSaveButton()
         setupInputValidation()
         setupAddClassButton()
         setupClassesRecyclerView()
@@ -108,6 +123,38 @@ class YogaClassFragment : Fragment() {
 
         listenToDB()
     }
+
+    private fun createNewCourse(courseName: String, duration: Int, capacity: Int, description: String) {
+        val newCourse = CourseEntry(
+            courseId = UUID.randomUUID().toString().hashCode(),
+            courseName = courseName,
+            duration = duration.toString(),
+            capacity = capacity,
+            classType = "General", // Default value or user input
+            description = description,
+            time = "10:00 AM", // Default value or user input
+            timestamp = System.currentTimeMillis(),
+            itemList = emptyList(), // Replace with actual items if applicable
+            pricing = 0.0, // Default value or user input
+            dayOfWeek = "Monday", // Default value or user input
+            timeOfDay = "" // Default value or user input
+        )
+        var currentCourseId = newCourse.courseId.toString()
+
+        // Save the course to Firestore
+        val db = Firebase.firestore
+
+        db.collection("courses")
+            .add(newCourse)
+            .addOnSuccessListener { documentReference ->
+                currentCourseId = documentReference.id
+                Toast.makeText(requireContext(), "Course created: $courseName", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { e ->
+                Log.e("Error", "Failed to create course", e)
+            }
+    }
+
 
 
     private fun listenToDB() {
@@ -206,54 +253,6 @@ class YogaClassFragment : Fragment() {
         }
     }
 
-    private fun setupSaveButton() {
-        binding.saveButton.setOnClickListener {
-            val className = binding.edtCourseName.text.toString()
-            if (className.isBlank()) {
-                Toast.makeText(context, "Please enter a course name", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            // Remove the instructor variable
-            val duration = binding.edtDuration.text.toString().toIntOrNull() ?: 0
-            val selectedTypes = binding.classTypeChipGroup.checkedChipIds.map { chipId ->
-                (binding.classTypeChipGroup.findViewById<Chip>(chipId)).text.toString()
-            }
-
-            val time = SimpleDateFormat("HH:mm", Locale.getDefault()).format(calendar.time)
-            val dayOfWeek = SimpleDateFormat("EEEE", Locale.getDefault()).format(Date(startDate))
-
-            val yogaClass = YogaClass(
-                id = UUID.randomUUID().toString(),
-                name = className,
-                instructor = "", // Pass an empty string for now
-                time = time,
-                startDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(
-                    Date(
-                        startDate
-                    )
-                ),
-                endDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date(endDate)),
-                dayOfWeek = dayOfWeek,
-                duration = duration,
-                level = selectedTypes.joinToString(", "),
-                description = binding.edtDesc.text.toString(),
-                price = TODO(),
-                chipGroup = TODO(),
-                maximumCapacity = TODO(),
-                timeOfDay = binding.timeOfDay.text.toString().toInt(),
-
-
-            )
-
-            saveCourseToDatabase(yogaClass)
-//            YogaClassStorage.addClass(yogaClass)
-//            viewModel.addCourse(yogaClass) // Add this line
-//            Toast.makeText(context, "Course saved successfully", Toast.LENGTH_SHORT).show()
-            //databaseViewModel.insertClass()
-            clearInputs()
-        }
-    }
 
     private fun clearInputs() {
         binding.edtCourseName.text?.clear()
@@ -273,82 +272,6 @@ class YogaClassFragment : Fragment() {
             //Toast.makeText(requireContext(), "click", Toast.LENGTH_SHORT).show()
             startActivity(Intent(requireContext(),AddCourseActivity::class.java))
         }
-    }
-
-    private fun showAddClassDialog() {
-        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_class, null)
-        val classNameEditText = dialogView.findViewById<EditText>(R.id.classNameEditText)
-        val teacherNameEditText = dialogView.findViewById<EditText>(R.id.teacherNameEditText)
-        val datePickerButton = dialogView.findViewById<TextView>(R.id.datePickerButton)
-        val btnSelectTime = dialogView.findViewById<TextView>(R.id.btnSelectTime)
-        val btnAddPhoto = dialogView.findViewById<TextView>(R.id.btnAddPhoto)
-        val cardView = dialogView.findViewById<CardView>(R.id.cvPhoto)
-        val image = dialogView.findViewById<ImageView>(R.id.imvPhoto)
-
-        var selectedDate: Long = 0
-
-        btnSelectTime.setOnClickListener {
-            val cal = Calendar.getInstance()
-            val timeSetListener = TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
-                cal.set(Calendar.HOUR_OF_DAY, hour)
-                cal.set(Calendar.MINUTE, minute)
-                btnSelectTime.text = SimpleDateFormat("HH:mm a").format(cal.time)
-            }
-            TimePickerDialog(requireContext(), timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true).show()
-        }
-
-        btnAddPhoto.setOnClickListener {
-            ImagePicker.with(this)
-                .compress(1024)
-                .cropSquare()
-                .maxResultSize(70,70)
-                .maxResultSize(1080, 1080)
-                .createIntent { intent ->
-                    startForProfileImageResult.launch(intent)
-                }
-        }
-
-        if (mProfileUri == null) {
-            btnAddPhoto.visibility = View.VISIBLE
-            cardView.visibility = View.GONE
-        } else {
-            btnAddPhoto.visibility = View.GONE
-            cardView.visibility = View.VISIBLE
-            image.setImageURI(mProfileUri)
-        }
-
-        datePickerButton.setOnClickListener {
-            val datePicker = MaterialDatePicker.Builder.datePicker()
-                .setTitleText("Select Class Date")
-                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-                .build()
-
-            datePicker.addOnPositiveButtonClickListener { selection ->
-                selectedDate = selection
-                val dateFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
-                datePickerButton.text = dateFormat.format(Date(selectedDate))
-            }
-
-            datePicker.show(childFragmentManager, "DATE_PICKER")
-        }
-
-        AlertDialog.Builder(requireContext())
-            .setTitle("Add New Class")
-            .setView(dialogView)
-            .setPositiveButton("Add") { _, _ ->
-                val className = classNameEditText.text.toString()
-                val teacherName = teacherNameEditText.text.toString()
-                if (className.isNotBlank() && teacherName.isNotBlank() && selectedDate != 0L) {
-                    val newClass = ClassInfo(className, teacherName, selectedDate)
-                    //classes.add(newClass)
-                    classAdapter.notifyItemInserted(classes.size - 1)
-                    Toast.makeText(context, "New class added", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(context, "Please fill all fields", Toast.LENGTH_SHORT).show()
-                }
-            }
-            .setNegativeButton("Cancel", null)
-            .show()
     }
 
 
@@ -378,18 +301,6 @@ class YogaClassFragment : Fragment() {
         }
     }
 
-    private fun saveCourseToDatabase(yogaClass: YogaClass) {
-
-        val result = dbHelper.insertCourse(yogaClass.name
-            , yogaClass.duration, yogaClass.description, yogaClass.level)
-
-        if (result > 0) {
-            Toast.makeText(context, "Course saved successfully", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(context, "Failed to save course", Toast.LENGTH_SHORT).show()
-        }
-    }
-
     private fun saveCourseToDB() {
 
         binding.saveButton.setOnClickListener {
@@ -400,6 +311,7 @@ class YogaClassFragment : Fragment() {
                 binding.edtDuration.error = "Please add course duration!"
             }
             else {
+
                 val course = CourseEntry(
                     courseName = binding.edtCourseName.text.trim().toString(),
 //                    from_to_date = binding.dateRangePickerButton.text.trim().toString(),
@@ -418,7 +330,32 @@ class YogaClassFragment : Fragment() {
                 Toast.makeText(requireContext(), "Successfully saved...", Toast.LENGTH_SHORT).show()
             }
 
+            classes.clear()
+            databaseViewModel.deleteAllClass()
         }
 
     }
+
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//
+//        // Add listener to save button
+//        binding.saveButton.setOnClickListener {
+//            val courseName = binding.edtCourseName.text.toString()
+//            val courseDuration = binding.edtCourseDuration.text.toString().toIntOrNull()
+//            val courseCapacity = binding.edtCourseCapacity.text.toString().toIntOrNull()
+//            val courseDescription = binding.edtCourseDescription.text.toString()
+//
+//            if (!courseName.isBlank() && courseDuration != null && courseCapacity != null) {
+//                createNewCourse(courseName, courseDuration, courseCapacity, courseDescription)
+//            } else {
+//                Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()
+//            }
+//        }
+//
+//        listenToDB()
+//        setSavedList()
+//        setUpSearchAction()
+//    }
+
 }

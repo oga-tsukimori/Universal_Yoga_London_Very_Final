@@ -34,4 +34,8 @@ class DatabaseRepository @Inject constructor(
     suspend fun deleteByCourseId(id : Int) {
         return courseDao.clearCourseById(id)
     }
+
+    suspend fun deleteAllClass(){
+        return dao.deleteAllClass()
+    }
 }

@@ -57,13 +57,13 @@
                 tools:layout_editor_absoluteY="0dp" />
 
             <TextView
-                android:layout_width="144dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="77dp"
-                android:layout_marginEnd="50dp"
+                android:layout_width="175dp"
+                android:layout_height="31dp"
+                android:layout_marginStart="80dp"
+                android:layout_marginEnd="16dp"
                 android:layout_toStartOf="@+id/tvDuration"
                 android:layout_toEndOf="@+id/tvPrice"
-                android:text="Duration per class"
+                android:text="Duration per class (in Min)"
                 app:layout_constraintEnd_toStartOf="@+id/tvDuration"
                 app:layout_constraintStart_toEndOf="@+id/tvPrice" />
 

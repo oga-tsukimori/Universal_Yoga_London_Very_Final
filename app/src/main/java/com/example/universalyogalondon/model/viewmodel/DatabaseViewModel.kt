@@ -42,6 +42,11 @@ class DatabaseViewModel  @Inject constructor(
         }
     }
 
+    fun deleteAllClass(){
+        viewModelScope.launch {
+            repository.deleteAllClass()
+        }
+    }
     fun deleteByClassId(classId : Int) {
         viewModelScope.launch {
             repository.deleteByClassId(classId)

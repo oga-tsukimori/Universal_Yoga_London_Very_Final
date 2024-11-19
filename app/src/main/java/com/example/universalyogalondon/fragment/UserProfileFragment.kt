@@ -26,6 +26,7 @@ class UserProfileFragment : Fragment() {
     private val binding get() = _binding!!
     private var usersAdapter : UsersAdapter? = null
     var courseList : MutableList<CourseEntry>? = null
+    private var userList: MutableList<Map<String, String>>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +45,7 @@ class UserProfileFragment : Fragment() {
 
         setUpUserList()
     }
+
     private fun setUpUserList(){
         usersAdapter = UsersAdapter(mutableListOf())
 //        courseListAdapter?.updateData(dataList)
@@ -60,24 +62,30 @@ class UserProfileFragment : Fragment() {
         // Reference the "courses" collection
         val coursesRef = db.collection("courses")
 
+
         // Query documents containing the "users" field
         coursesRef.get()
             .addOnSuccessListener { documents ->
-                println("Course Data: ${documents}")
-                for (document in documents) {
-                    // Check if "users" field exists
-                    if (document.contains("users")) {
-                        val courseId = document.id
-                        val courseData = document.data
-                        val usersList = document.get("users") // Retrieves the "users" list
+                val courseData = documents.documents
+                println("courseData ${courseData.size}")
+                usersAdapter?.setUsers(courseData)
 
-                        println("Course ID: $courseId")
-                        println("Course Data: ${document.data}")
-                        println("Users: $usersList")
+//                for (document in documents) {
+//                    // Check if "users" field exists
+//                    if (document.contains("users")) {
+//                        val courseId = document.id
+//                        val courseData = document.data
+//                        val user = document.get("users") // Retrieves the "users" list
+//                        val courseName = document.get("courseName")
+//
+//                        println("courseData $courseData")
+////                        userList.add(user)
+////
+//                        usersAdapter?.setUsers(courseData as MutableList<Map<String, String>>)
+//                    }
+////                    userList.addAll()
+//                }
 
-                        usersAdapter?.setUsers(usersList as MutableList<Map<String, String>>)
-                    }
-                }
             }
             .addOnFailureListener { exception ->
                 println("Error fetching courses: ${exception.message}")

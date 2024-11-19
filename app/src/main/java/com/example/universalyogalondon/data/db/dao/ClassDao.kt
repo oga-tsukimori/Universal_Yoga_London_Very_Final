@@ -20,4 +20,7 @@ interface ClassDao {
 
     @Query("DELETE FROM class WHERE classId=:classId")
     suspend fun deleteByClassId(classId: Int)
+
+    @Query("DELETE FROM class")
+    suspend fun deleteAllClass()
 }

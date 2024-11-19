@@ -1,8 +1,6 @@
 package com.example.universalyogalondon.model
 
 import com.google.android.material.chip.ChipGroup
-import com.google.type.DayOfWeek
-import com.google.type.TimeOfDay
 
 data class YogaClass(
     val id: String,
@@ -18,6 +16,8 @@ data class YogaClass(
     val price: Int,
     val chipGroup: ChipGroup,
     val maximumCapacity: Int,
-    val timeOfDay: Int
+    val timeOfDay: Int,
+    val courseID: Int,
+    val classID: Int
 
 )
