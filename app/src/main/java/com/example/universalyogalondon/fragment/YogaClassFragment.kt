@@ -161,7 +161,11 @@ class YogaClassFragment : Fragment() {
         databaseViewModel.getSaveClassList()
         databaseViewModel.classList.observe(viewLifecycleOwner) {
             if (it is ViewState.Success) {
-                it.value?.let { classes.addAll(it) }
+                classes.clear()
+
+                it.value?.let { classes.addAll(it)
+                println("*** ${classes.size}")
+                }
                 it.value?.let { classAdapter.update(it) }
             }
         }
@@ -304,6 +308,7 @@ class YogaClassFragment : Fragment() {
     private fun saveCourseToDB() {
 
         binding.saveButton.setOnClickListener {
+            println("### ${classes.size}")
             if (binding.edtCourseName.text.trim().toString().isNullOrEmpty()){
                 binding.edtCourseName.error = "Please fill course name!"
 
@@ -322,15 +327,18 @@ class YogaClassFragment : Fragment() {
                     pricing = binding.editPrice.text.trim().toString().toDouble(),
                     capacity = binding.editMaximumCapacity.text.toString().toInt(),
                     dayOfWeek = binding.dayOfWeek.text.trim().toString(),
-                    timeOfDay = binding.timeOfDay.text.trim().toString()
+                    timeOfDay = binding.timeOfDay.text.trim().toString(),
+                    teacherName = classes.get(0).teacherName ?: classes.get(1).teacherName ?:""
 
                 )
                 databaseViewModel.insertCourse(course)
                 clearInputs()
+//                classes.clear()
+
                 Toast.makeText(requireContext(), "Successfully saved...", Toast.LENGTH_SHORT).show()
             }
 
-            classes.clear()
+
             databaseViewModel.deleteAllClass()
         }
 

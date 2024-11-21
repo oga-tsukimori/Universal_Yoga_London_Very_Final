@@ -189,7 +189,9 @@ class ClassCalendarFragment : Fragment() {
     private fun setUpSearchAction() {
         binding.edtSearch.doAfterTextChanged { searchText ->
             val filteredList = courseList.filter {
-                it.courseName?.contains(searchText.toString(), ignoreCase = true) ?: false
+                val query = searchText.toString()
+                (it.courseName?.contains(query, ignoreCase = true) ?: false) ||
+                        (it.teacherName?.contains(query, ignoreCase = true) ?: false)
             }
             savedListAdapter?.updateData(filteredList.toMutableList())
         }

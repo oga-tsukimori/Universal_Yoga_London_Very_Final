@@ -21,5 +21,6 @@ data class CourseEntry(
      val itemList: List<ClassEntry> = emptyList(),
      val pricing: Double = 0.0,
      val dayOfWeek: String,
-     val timeOfDay: String
+     val timeOfDay: String,
+     val teacherName: String = ""
 )
